@@ -1,7 +1,15 @@
 import { Layout } from "@/components/layout";
 import { Todo } from "@/lib/todo";
 import { useState } from "react";
-import { Button, Col, Form, ListGroup, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  ListGroup,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import styles from "./index.module.css";
 import useSWR, { Fetcher } from "swr";
 
@@ -50,23 +58,29 @@ export default function Home() {
                 </Col>
               </Row>
             </Form>
-            <ListGroup>
-              {todos &&
-                todos.map((todo, index) => (
-                  <ListGroup.Item key={index}>
-                    <Row>
-                      <Col className="d-flex align-items-center">
-                        {todo.title}
-                      </Col>
-                      <Col xs={"auto"}>
-                        <Button variant="danger" size="sm">
-                          delete
-                        </Button>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                ))}
-            </ListGroup>
+            {isLoading ? (
+              <Container className={styles.spinnerContainer}>
+                <Spinner animation="grow" />
+              </Container>
+            ) : (
+              <ListGroup>
+                {todos &&
+                  todos.map((todo, index) => (
+                    <ListGroup.Item key={index}>
+                      <Row>
+                        <Col className="d-flex align-items-center">
+                          {todo.title}
+                        </Col>
+                        <Col xs={"auto"}>
+                          <Button variant="danger" size="sm">
+                            delete
+                          </Button>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  ))}
+              </ListGroup>
+            )}
           </div>
         </main>
       </Layout>

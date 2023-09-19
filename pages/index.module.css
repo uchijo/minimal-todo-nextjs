@@ -1,3 +1,8 @@
 .formContainer {
   margin: 20px 0;
 }
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+}
