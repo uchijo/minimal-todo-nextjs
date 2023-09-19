@@ -1,0 +1,17 @@
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modalBox {
+  background-color: white;
+  width: 70%;
+  max-width: 50rem;
+  padding: 2rem;
+  margin: 10rem auto;
+  border-radius: 10px;
+}
