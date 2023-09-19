@@ -12,11 +12,7 @@ type props = {
 export const getServerSideProps = (): { props: props } => {
   return {
     props: {
-      todos: [
-        {
-          title: "hoge",
-        },
-      ],
+      todos: [],
     },
   };
 };
@@ -51,7 +47,10 @@ export default function Home({ todos: initialTodos }: props) {
                         setIsWarningModalOpen(true);
                         return;
                       }
-                      setTodos([...todos, { title: text }]);
+                      setTodos([
+                        ...todos,
+                        { title: text, id: 100, completed: false },
+                      ]);
                       setText("");
                     }}
                     type="button"
