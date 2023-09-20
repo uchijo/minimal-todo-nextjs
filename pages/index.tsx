@@ -32,8 +32,11 @@ export default function Home() {
     return (
       <>
         <Layout>
-          ログインしてください
-          <a href="/api/auth/login">Login</a>
+          <div className={styles.loggedOutContainer}>
+            <span>ログインしてください</span>
+            <br />
+            <a href="/api/auth/login">Login</a>
+          </div>
         </Layout>
       </>
     );

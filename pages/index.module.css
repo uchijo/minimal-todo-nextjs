@@ -10,3 +10,10 @@
 .toast {
   margin: 2rem;
 }
+
+.loggedOutContainer {
+  margin: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
