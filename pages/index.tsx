@@ -25,16 +25,23 @@ export default function Home() {
     mutate,
   } = useSWR("/api/todos", fetcher);
 
+  if (user == undefined) {
+    return (
+      <>
+        <Layout>
+          ログインしてください
+          <a href="/api/auth/login">Login</a>
+        </Layout>
+      </>
+    );
+  }
+
   return (
     <>
       <Layout>
         <main>
           <div>
-            {user == undefined ? (
-              <a href="/api/auth/login">Login</a>
-            ) : (
-              <a href="/api/auth/logout">Logout</a>
-            )}
+            <a href="/api/auth/logout">Logout</a>
             <Form className={styles.formContainer}>
               <Row>
                 <Col>
