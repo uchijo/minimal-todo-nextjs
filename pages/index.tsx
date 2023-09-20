@@ -15,6 +15,7 @@ import {
 import styles from "./index.module.css";
 import useSWR, { Fetcher } from "swr";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Link from "next/link";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -35,7 +36,7 @@ export default function Home() {
           <div className={styles.loggedOutContainer}>
             <span>ログインしてください</span>
             <br />
-            <a href="/api/auth/login">Login</a>
+            <Link href="/api/auth/login">Login</Link>
           </div>
         </Layout>
       </>
@@ -54,7 +55,7 @@ export default function Home() {
                 </Toast.Body>
               </Toast>
             </ToastContainer>
-            <a href="/api/auth/logout">Logout</a>
+            <Link href="/api/auth/logout">Logout</Link>
             <Form className={styles.formContainer}>
               <Row>
                 <Col>

@@ -26,6 +26,5 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
             userId: userId,
         }
     });
-    console.log(rawTodos);
     res.status(200).json({ todos: rawTodos });
 });
