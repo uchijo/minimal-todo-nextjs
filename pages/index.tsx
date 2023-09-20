@@ -12,9 +12,11 @@ import {
 } from "react-bootstrap";
 import styles from "./index.module.css";
 import useSWR, { Fetcher } from "swr";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Home() {
   const [text, setText] = useState("");
+  const { user, isLoading: isUserLoading } = useUser();
 
   const {
     data: todos,
@@ -28,6 +30,11 @@ export default function Home() {
       <Layout>
         <main>
           <div>
+            {user == undefined ? (
+              <a href="/api/auth/login">Login</a>
+            ) : (
+              <a href="/api/auth/logout">Logout</a>
+            )}
             <Form className={styles.formContainer}>
               <Row>
                 <Col>
