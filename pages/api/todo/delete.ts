@@ -15,18 +15,17 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
         res.status(401).json({});
         return;
     }
-    const title: string | undefined = req.body['title'];
-    if (title == undefined) {
+    const todoId: number | undefined = req.body['id'];
+    if (todoId == undefined) {
         res.status(400).json({});
         return;
     }
 
-    const result = await prisma.todo.create({
-        data: {
-            title,
-            completed: false,
-            userId: user.sub,
-        }
+    const result = await prisma.todo.delete({
+        where: {
+            id: todoId,
+            userId: user.sub
+        },
     });
     res.status(200).json(result);
     return;

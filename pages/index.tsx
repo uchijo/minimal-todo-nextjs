@@ -86,7 +86,14 @@ export default function Home() {
                           {todo.title}
                         </Col>
                         <Col xs={"auto"}>
-                          <Button variant="danger" size="sm">
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={async () => {
+                              await deleteTodo(todo.id);
+                              await mutate();
+                            }}
+                          >
                             delete
                           </Button>
                         </Col>
@@ -121,6 +128,21 @@ const postTodo = async (title: string) => {
     },
     body: JSON.stringify({
       title,
+    }),
+  });
+  if (!response.ok) {
+    throw Error("something went wrong");
+  }
+};
+
+const deleteTodo = async (todoId: number) => {
+  const response = await fetch("/api/todo/delete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: todoId,
     }),
   });
   if (!response.ok) {
