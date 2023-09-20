@@ -24,7 +24,6 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
     const result = await prisma.todo.create({
         data: {
             title,
-            completed: false,
             userId: user.sub,
         }
     });

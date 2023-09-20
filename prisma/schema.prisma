@@ -13,6 +13,5 @@ datasource db {
 model Todo {
   id        Int     @id @default(autoincrement())
   title     String
-  completed Boolean
   userId    String
 }
