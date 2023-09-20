@@ -9,6 +9,8 @@ import {
   ListGroup,
   Row,
   Spinner,
+  Toast,
+  ToastContainer,
 } from "react-bootstrap";
 import styles from "./index.module.css";
 import useSWR, { Fetcher } from "swr";
@@ -16,14 +18,15 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Home() {
   const [text, setText] = useState("");
-  const { user, isLoading: isUserLoading } = useUser();
+  const { user } = useUser();
+  const [toastOn, setToastOn] = useState(false);
+  const showError = async () => {
+    setToastOn(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setToastOn(false);
+  };
 
-  const {
-    data: todos,
-    isLoading,
-    error,
-    mutate,
-  } = useSWR("/api/todos", fetcher);
+  const { data: todos, isLoading, mutate } = useSWR("/api/todos", fetcher);
 
   if (user == undefined) {
     return (
@@ -41,6 +44,13 @@ export default function Home() {
       <Layout>
         <main>
           <div>
+            <ToastContainer position="bottom-center">
+              <Toast className={styles.toast} bg="danger" show={toastOn}>
+                <Toast.Body className="text-white">
+                  エラーが発生しました
+                </Toast.Body>
+              </Toast>
+            </ToastContainer>
             <a href="/api/auth/logout">Logout</a>
             <Form className={styles.formContainer}>
               <Row>
@@ -58,12 +68,16 @@ export default function Home() {
                 <Col xs="auto">
                   <Button
                     onClick={async () => {
-                      if (text.length == 0) {
-                        return;
+                      try {
+                        if (text.length == 0) {
+                          return;
+                        }
+                        await postTodo(text);
+                        mutate();
+                        setText("");
+                      } catch (_) {
+                        showError();
                       }
-                      await postTodo(text);
-                      mutate();
-                      setText("");
                     }}
                     type="button"
                   >
@@ -90,8 +104,12 @@ export default function Home() {
                             variant="danger"
                             size="sm"
                             onClick={async () => {
-                              await deleteTodo(todo.id);
-                              await mutate();
+                              try {
+                                await deleteTodo(todo.id);
+                                await mutate();
+                              } catch (_) {
+                                showError();
+                              }
                             }}
                           >
                             delete
